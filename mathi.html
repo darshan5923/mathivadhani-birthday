@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Mathivadhani 💖</title>
+
+<!-- External Fonts & Confetti Library -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+:root {
+    --primary: #ff477e;
+    --primary-gradient: linear-gradient(135deg, #ff477e 0%, #ff70a6 100%);
+    --accent-glow: rgba(255, 71, 126, 0.35);
+    --text-dark: #2c1a29;
+    --text-muted: #7d5a75;
+    --glass-bg: rgba(255, 255, 255, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.85);
+    --shadow-soft: 0 20px 50px rgba(220, 100, 150, 0.15);
+    --shadow-hover: 0 30px 60px rgba(220, 70, 130, 0.25);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #fdf5f8;
+    color: var(--text-dark);
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* ---------- AMBIENT BACKGROUND GLOWS ---------- */
+.glow-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.6;
+    z-index: 0;
+    pointer-events: none;
+}
+.orb-1 { width: 450px; height: 450px; background: #ffc2d1; top: -100px; left: -100px; }
+.orb-2 { width: 550px; height: 550px; background: #e8c5ff; bottom: -100px; right: -100px; }
+.orb-3 { width: 350px; height: 350px; background: #ffe5ec; top: 40%; left: 30%; }
+
+/* Floating Particle Canvas */
+#particles-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ---------- LAYOUT UTILITIES ---------- */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 2;
+}
+
+section {
+    padding: 100px 0;
+}
+
+/* Glassmorphism Card Style */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 32px;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+    box-shadow: var(--shadow-hover);
+}
+
+/* Typography Headers */
+.section-header {
+    text-align: center;
+    max-width: 650px;
+    margin: 0 auto 60px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 50px;
+    background: rgba(255, 71, 126, 0.1);
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255, 71, 126, 0.2);
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(34px, 5vw, 52px);
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* ---------- HERO SECTION ---------- */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 0;
+}
+
+.hero-card {
+    padding: 70px 40px;
+    max-width: 820px;
+    width: 100%;
+}
+
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 7vw, 76px);
+    font-weight: 800;
+    font-style: italic;
+    background: linear-gradient(135deg, #ff2e63 0%, #a83279 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 15px 0 20px;
+}
+
+.hero h2 {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text-muted);
+    max-width: 580px;
+    margin: 0 auto 35px;
+    line-height: 1.7;
+}
+
+/* Countdown Timer */
+.countdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 30px 0 40px;
+}
+
+.time-box {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 16px;
+    border-radius: 20px;
+    min-width: 85px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.time-box span {
+    display: block;
+    font-weight: 800;
+    font-size: 26px;
+    color: var(--primary);
+}
+
+.time-box label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+/* Modern Pill Button */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: none;
+    padding: 18px 42px;
+    border-radius: 50px;
+    background: var(--primary-gradient);
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 12px 30px var(--accent-glow);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 18px 36px var(--accent-glow);
+}
+
+/* ---------- LETTER SECTION ---------- */
+.message-card {
+    padding: 56px;
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 18px;
+    line-height: 1.9;
+    color: var(--text-dark);
+}
+
+.message-card p:first-child {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* ---------- MEMORIES GALLERY ---------- */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.photo-card {
+    background: white;
+    border-radius: 28px;
+    padding: 18px;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.photo-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-hover);
+}
+
+.photo-wrapper {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 18px;
+    background: #fff0f5;
+}
+
+.photo-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.photo-card:hover .photo-wrapper img {
+    transform: scale(1.08);
+}
+
+.photo-card h3 {
+    font-size: 20px;
+    font-family: 'Playfair Display', serif;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+
+.photo-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* ---------- FUNNY CARDS ---------- */
+.funny-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+}
+
+.funny-card {
+    padding: 36px 28px;
+    text-align: center;
+}
+
+.funny-card:hover {
+    transform: translateY(-6px);
+    background: white;
+}
+
+.emoji-badge {
+    width: 76px;
+    height: 76px;
+    background: rgba(255, 71, 126, 0.08);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    margin: 0 auto 24px;
+}
+
+.funny-card h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-family: 'Playfair Display', serif;
+}
+
+.funny-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* ---------- GIFT UNWRAP ---------- */
+.gift-wrapper {
+    background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,225,237,0.6) 100%);
+    border-radius: 40px;
+    padding: 70px 24px;
+    text-align: center;
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-soft);
+}
+
+.gift-box {
+    font-size: 100px;
+    cursor: pointer;
+    display: inline-block;
+    animation: floatGift 2.5s infinite ease-in-out;
+    transition: transform 0.3s;
+    user-select: none;
+}
+
+.gift-box:hover {
+    transform: scale(1.25) rotate(8deg);
+}
+
+@keyframes floatGift {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(-3deg); }
+}
+
+/* ---------- MODAL POPUP ---------- */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(44, 26, 41, 0.6);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-card {
+    background: white;
+    padding: 50px 36px;
+    border-radius: 36px;
+    max-width: 460px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.25);
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.active .modal-card {
+    transform: scale(1);
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+    text-align: center;
+    padding: 50px 0;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+</style>
+</head>
+<body>
+
+    <!-- Ambient Glowing Orbs -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+
+    <!-- Interactive Canvas Particles -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container">
+            <div class="glass-card hero-card">
+                <span class="badge">✨ Special Celebration ✨</span>
+                <h1>Happy Birthday, Mathivadhani!</h1>
+                <h2>Bringing endless warmth, light, and joy wherever you go 🌸</h2>
+
+                <!-- Live Countdown -->
+                <div class="countdown-container">
+                    <div class="time-box"><span id="days">00</span><label>Days</label></div>
+                    <div class="time-box"><span id="hours">00</span><label>Hours</label></div>
+                    <div class="time-box"><span id="mins">00</span><label>Mins</label></div>
+                    <div class="time-box"><span id="secs">00</span><label>Secs</label></div>
+                </div>
+
+                <a href="#message" class="btn">Read Your Message 💌</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- BIRTHDAY MESSAGE -->
+    <section id="message">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">Letter</span>
+                <h2 class="section-title">A Special Letter For You</h2>
+            </div>
+            <div class="glass-card message-card">
+                
+                <br>
+                <p>
+                   💗 Birthday Letter</p>
+<p>Dearest Mathivadhani, ❤️</p>
+<p>Wishing you the happiest birthday to one of the most beautiful souls I’ve had the privilege of knowing. 🎂✨</p>
+<p>Today is not just about celebrating another year of your life; it’s about celebrating you—the person you are, the happiness you bring to others, and all the wonderful memories we’ve created together.</p>
+<p>
+You have a special way of making people feel comfortable, valued, and cared for. Your smile can brighten even an ordinary day, and your presence can make difficult moments feel a little easier. I genuinely feel lucky to have a friend like you in my life.</p>
+<p>Thank you for all the little things you may not even realise you do—for listening, understanding, supporting, laughing with me, and simply being there. Some friendships are difficult to explain because they become a beautiful part of our lives without us even noticing. Our friendship is one of those things I truly treasure. ❤️</p>
+<p>I hope you always remember that you are important, appreciated, and deeply cared for. Whenever life becomes difficult, I hope you never forget how strong and special you are. And whenever you feel like giving up, I hope you find a reason to smile and keep moving forward.</p>
+<p>On your special day, I wish you more than just success. I wish you peace in your heart, happiness in your everyday life, good health, beautiful memories, genuine people around you, and the courage to chase every dream you have. May the coming year bring you countless reasons to smile and moments that you will remember for a lifetime.</p>
+<p>No matter how much life changes or where our paths take us, I will always be grateful that our paths crossed. Thank you for being a wonderful friend and for being a beautiful part of my life. 🫂❤️</p>
+<p>Keep smiling, keep being the amazing person you are, and never lose that beautiful heart of yours.</p>
+<p>Happy Birthday once again, Mathivadhani! 🎂🎉❤️</p>
+<p>May this year be filled with everything your heart truly wishes for.</p>
+<p>With lots of care and warm wishes,</P>
+<p>Your friend ❤️                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY SECTION -->
+    <section id="gallery">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">Memories</span>
+                <h2 class="section-title">Precious Moments</h2>
+                <p class="subtitle">A quick highlight reel of unforgettable memories and smiles.</p>
+            </div>
+            
+            <div class="gallery-grid">
+                <div class="photo-card">
+                    <div class="photo-wrapper">
+                        <img src="C:\Users\darsh\Downloads\don.jpeg">
+                    </div>
+                    <h3>Chotu Don</h3>
+                    <p>“Our Chotu — small name, big attitude, unforgettable memories. 😂❤️”</p>
+                </div>
+                <div class="photo-card">
+                    <div class="photo-wrapper">
+                        <img src="C:\Users\darsh\Downloads\1.jpeg">
+                    </div>
+                    <h3>Cute and Innocent 😄</h3>
+                    <p>“Looking innocent… but we know better. 😂❤️”</p>
+                </div>
+                <div class="photo-card">
+                    <div class="photo-wrapper">
+                        <img src="C:\Users\darsh\Downloads\food.jpeg">
+                    </div>
+                    <h3>Foodie Lover 🍰</h3>
+                    <p>“Birthday girl by day, professional foodie by choice. 😂🍕❤️”</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FUNNY CARDS -->
+    <section id="funny">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">Highlights</span>
+                <h2 class="section-title">Certified Facts About You</h2>
+                <p class="subtitle">Scientifically proven truths that no one can deny.</p>
+            </div>
+
+            <div class="funny-grid">
+                <div class="glass-card funny-card">
+                    <div class="emoji-badge">👑</div>
+                    <h3>Main Character</h3>
+                    <p>Unmatched positive energy wherever you go, no exceptions allowed!</p>
+                </div>
+                <div class="glass-card funny-card">
+                    <div class="emoji-badge">🍕</div>
+                    <h3>Foodie Master</h3>
+                    <p>Always ready for food, even 5 minutes after finishing a full meal. Snacks is the first priority</p>
+                </div>
+                <div class="glass-card funny-card">
+                    <div class="emoji-badge">😴</div>
+                    <h3>Pro Snoozer</h3>
+                    <p>Chikku ma the Sleep Queen 👑💤
+“If sleeping were a talent, Chikku ma would have a gold medal.” 😂</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GIFT UNWRAP SECTION -->
+    <section id="gift">
+        <div class="container">
+            <div class="gift-wrapper">
+                <span class="badge">Unwrap</span>
+                <h2 class="section-title">A Little Gift For You</h2>
+                <p class="subtitle">Click the box below to unlock your birthday surprise!</p>
+                <br>
+                <div class="gift-box" onclick="openGift()">🎁</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL POPUP -->
+    <div class="modal-overlay" id="giftModal">
+        <div class="modal-card">
+            <div style="font-size: 55px; margin-bottom: 15px;">🎉✨</div>
+            <h2 style="color: var(--primary); font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 14px;">Surprise!</h2>
+            <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 28px;">
+               <p>Surprise, Chikku! 🎉❤️</p>
+<p>Congratulations! You’ve officially unlocked your birthday privileges:</p>
+<p>🌸 Unlimited happiness</p>
+<p>🍕 Unlimited food adventures</p>
+<p>😴 Unlimited sleeping rights</p>
+<p>😂 Unlimited teasing from me</p>
+<p>🫂 And unlimited hugs whenever you need one</p>
+<p>No expiry date. No cancellation. No refunds. 😂❤️</p>
+<p>Happy Birthday, Chikku! 🎂✨</p>
+<p>Stay happy, keep smiling, keep eating, and never change the beautiful person you are💕and endless warm birthday hugs!" 💖</p>
+            
+            <button class="btn" onclick="closeGift()" style="width: 100%; justify-content: center;">Thank You!✨ Chikku, Enjoy Your Day! 💕”</button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <p>Crafted with ❤️ for Mathivadhani's Big Day</p>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT -->
+    <script>
+        // Floating Flower/Heart Canvas Particles
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const symbols = ['🌸', '✨', '💖', '🌷'];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 20;
+                this.symbol = symbols[Math.floor(Math.random() * symbols.length)];
+                this.size = Math.random() * 14 + 10;
+                this.speedY = Math.random() * 1.5 + 0.8;
+                this.speedX = Math.sin(this.y) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.3;
+            }
+
+            update() {
+                this.y -= this.speedY;
+                this.x += Math.sin(this.y * 0.03) * 0.6;
+                if (this.y < -20) {
+                    this.y = canvas.height + 20;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.font = `${this.size}px sans-serif`;
+                ctx.fillText(this.symbol, this.x, this.y);
+            }
+        }
+
+        for (let i = 0; i < 25; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Countdown Timer
+        const targetDate = new Date();
+        targetDate.setDate(targetDate.getDate() + 2); // Target set to 2 days from today
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById('days').innerText = "00";
+                document.getElementById('hours').innerText = "00";
+                document.getElementById('mins').innerText = "00";
+                document.getElementById('secs').innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = days.toString().padStart(2, '0');
+            document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
+            document.getElementById('mins').innerText = minutes.toString().padStart(2, '0');
+            document.getElementById('secs').innerText = seconds.toString().padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Confetti Burst & Gift Box Trigger
+        function openGift() {
+            document.getElementById('giftModal').classList.add('active');
+            
+            if (typeof confetti === 'function') {
+                // Multi-stage confetti celebration burst
+                confetti({
+                    particleCount: 80,
+                    spread: 60,
+                    origin: { y: 0.6 }
+                });
+                
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 50,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 }
+                    });
+                    confetti({
+                        particleCount: 50,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 }
+                    });
+                }, 250);
+            }
+        }
+
+        function closeGift() {
+            document.getElementById('giftModal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
